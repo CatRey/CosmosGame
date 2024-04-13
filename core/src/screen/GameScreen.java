@@ -33,16 +33,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        int x = random.nextInt((1500 - 500) + 1) + 500;
         movecamera = new Movecamera();
         player = new Player();
         background = new Texture("background.png");
         ground = new Texture("ground.png");
         movecamera.setToOrtho(false, CosmosGame.SCREEN_WIDTH, CosmosGame.SCREEN_HEIGHT);
-        for (int i = 0; i < 6; i++) {
-            ores[i] = new Ore(random.nextInt((4500 - 100) + 1) + 100, 90, movecamera, player);
-        }
         gameInterface = new GameInterface(movecamera, cosmosGame);
-
+        for (int i = 0; i < 6; i++) {
+            ores[i] = new Ore(x, 90, movecamera, gameInterface.stage, cosmosGame);
+            x += random.nextInt((1500 - 500) + 1) + 500;
+        }
         batch = cosmosGame.getSpriteBatch();
     }
 
@@ -58,14 +59,7 @@ public class GameScreen implements Screen {
         batch.draw(ground, 0, 0);
         player.rendering(batch, movecamera);
         batch.end();
-        for (int i = 0; i < 6; i++) {
-            if (!ores[i].mined) {
-                ores[i].drawSprite();
-            }
-        }
-        gameInterface.drawUI();
-
-
+        gameInterface.drawUI(cosmosGame);
     }
 
     @Override
@@ -74,7 +68,6 @@ public class GameScreen implements Screen {
         player.disposing();
         background.dispose();
         ground.dispose();
-        for (int i = 0; i < 6; i++) ores[i].dispose();
 
     }
 
