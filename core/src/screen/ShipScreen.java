@@ -44,7 +44,7 @@ public class ShipScreen implements Screen {
         batch.draw(background, 0, 0);
         player.rendering(batch, movecamera);
         batch.end();
-        gameInterface.drawUI(cosmosGame);
+        gameInterface.drawUI(cosmosGame, movecamera);
     }
     @Override
     public void dispose() {

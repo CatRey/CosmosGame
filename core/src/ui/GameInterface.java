@@ -60,7 +60,7 @@ public class GameInterface {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (camera.position.x > 0+CosmosGame.SCREEN_WIDTH/2f) {
-                    camera.moveCamera(-10F);
+                    camera.moveCamera(-20F);
 
                 }
             }
@@ -70,7 +70,7 @@ public class GameInterface {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                     if (camera.position.x < cosmosGame.getWORLD_WIDTH()-CosmosGame.SCREEN_WIDTH/2f) {
-                camera.moveCamera(10F);
+                camera.moveCamera(20F);
 
             }
             }
@@ -93,10 +93,10 @@ public class GameInterface {
         stage.addActor(left);
         stage.addActor(right);
         stage.addActor(exit);
-        if(cosmosGame.getIdScene()==1)stage.addActor(ship);
+        if(cosmosGame.getIdScene()==1 && x<=400)stage.addActor(ship);
     }
 
-    public void drawUI(CosmosGame cosmosGame) {
+    public void drawUI(CosmosGame cosmosGame,Movecamera camera) {
         float x = camera.position.x;
         ship.setPosition(200+x-400, 10);
         left.setPosition(0+x-400, 10);
@@ -105,7 +105,10 @@ public class GameInterface {
         stage.addActor(left);
         stage.addActor(right);
         stage.addActor(exit);
-        if(cosmosGame.getIdScene()==1){
+        if(x>400){
+            System.out.println(x);
+        }
+        if(cosmosGame.getIdScene()==1 && x<=400f){
             stage.addActor(ship);
         }
         stage.act();

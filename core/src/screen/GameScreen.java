@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
         batch.draw(ground, 0, 0);
         player.rendering(batch, movecamera);
         batch.end();
-        gameInterface.drawUI(cosmosGame);
+        gameInterface.drawUI(cosmosGame,movecamera);
     }
 
     @Override
