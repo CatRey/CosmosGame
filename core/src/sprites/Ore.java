@@ -14,19 +14,21 @@ public class Ore {
     private final Stage stage;
     public boolean mined = false;
 
-    public Ore(float x, float y, Movecamera camera,Stage stage,CosmosGame cs){
+    public Ore(float x, float y, Movecamera camera,Stage stage,CosmosGame cs,int i){
         this.stage = stage;
         Drawable OD = new TextureRegionDrawable(new Texture("mine.png"));
         ImageButton t = new ImageButton(OD);
         t.setTransform(true);
         t.setScale(0.1f);
         t.setPosition(x,y);
+        t.setVisible(!cs.mined[i]);
         t.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event,float x,float y){
-                mined = true;
-                t.setVisible(false);
-                cs.setCountOre(cs.getCountOre()+1);
+                    mined = true;
+                    t.setVisible(false);
+                    cs.setCountOre(cs.getCountOre() + 1);
+                    cs.mined[i] = true;
 
             }
         });

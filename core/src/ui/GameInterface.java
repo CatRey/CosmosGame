@@ -23,9 +23,12 @@ public class GameInterface {
     private final ImageButton right;
     private final ImageButton exit;
     private final ImageButton ship;
+    private final ImageButton map;
+    private final ImageButton vob;
     private final Movecamera camera;
     public Stage stage;
     private CosmosGame cosmosGame;
+    public boolean needJump = false;
 
     public GameInterface(Movecamera camera, CosmosGame cosmosGame) {
         this.camera = camera;
@@ -33,10 +36,15 @@ public class GameInterface {
         Drawable rightD = new TextureRegionDrawable(new Texture("btnRight.png"));
         Drawable exitD = new TextureRegionDrawable(new Texture("btnExit.png"));
         Drawable shipD = new TextureRegionDrawable(new Texture("btnShip.png"));
+        Drawable mapD = new TextureRegionDrawable(new Texture("mapBack.png"));
+        Drawable vobD = new TextureRegionDrawable(new Texture("vob.png"));
+
         left = new ImageButton(leftD);
         right = new ImageButton(rightD);
         exit = new ImageButton(exitD);
         ship = new ImageButton(shipD);
+        map = new ImageButton(mapD);
+        vob = new ImageButton(vobD);
        float x = camera.position.x;
         left.setPosition(0+x-400, 10);
         left.setTransform(true);
@@ -50,8 +58,16 @@ public class GameInterface {
         exit.setPosition(CosmosGame.SCREEN_WIDTH - 50+x-400, CosmosGame.SCREEN_HEIGHT - 50);
         exit.setTransform(true);
         exit.setScale(0.1f);
+        map.setTransform(true);
+        map.setPosition(20,170);
+        map.setScale(0.7f);
+        vob.setTransform(true);
+        vob.setScale(0.3f);
+        vob.setPosition(5000,90);
         if(cosmosGame.getIdScene()==1){
-            cosmosGame.setWORLD_WIDTH(5200);
+            if(cosmosGame.build){
+                cosmosGame.setWORLD_WIDTH(8800);}
+            else cosmosGame.setWORLD_WIDTH(5200);
         }
         if(cosmosGame.getIdScene()==2){
             cosmosGame.setWORLD_WIDTH(800);
@@ -84,7 +100,23 @@ public class GameInterface {
         ship.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                cosmosGame.changeScreen("Ship");
+                needJump = true;
+            }
+        });
+        map.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event,float x,float y){
+                cosmosGame.k = "Map";
+                cosmosGame.changeScreen(cosmosGame.k);
+            }
+        });
+        vob.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event,float x,float y){
+                if(cosmosGame.getCountOre()>=3){
+                    cosmosGame.setCountOre(cosmosGame.getCountOre()-3);
+                    cosmosGame.build = true;
+                }
             }
         });
         Viewport fitViewport = new StretchViewport(CosmosGame.SCREEN_WIDTH, CosmosGame.SCREEN_HEIGHT, camera);
@@ -93,11 +125,17 @@ public class GameInterface {
         stage.addActor(left);
         stage.addActor(right);
         stage.addActor(exit);
-        if(cosmosGame.getIdScene()==1 && x<=400)stage.addActor(ship);
+        stage.addActor(ship);
+        if(cosmosGame.getIdScene()==2)stage.addActor(map);
+        if(cosmosGame.getIdScene()==1)stage.addActor(vob);
     }
 
     public void drawUI(CosmosGame cosmosGame,Movecamera camera) {
         float x = camera.position.x;
+        if(cosmosGame.getIdScene()==1){
+            if(cosmosGame.build)cosmosGame.setWORLD_WIDTH(8800);
+            else cosmosGame.setWORLD_WIDTH(5200);
+        }
         ship.setPosition(200+x-400, 10);
         left.setPosition(0+x-400, 10);
         right.setPosition(100+x-400, 10);
@@ -105,12 +143,7 @@ public class GameInterface {
         stage.addActor(left);
         stage.addActor(right);
         stage.addActor(exit);
-        if(x>400){
-            System.out.println(x);
-        }
-        if(cosmosGame.getIdScene()==1 && x<=400f){
-            stage.addActor(ship);
-        }
+        stage.addActor(ship);
         stage.act();
         stage.draw();
     }

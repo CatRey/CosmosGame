@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Random;
+
 import screen.GameScreen;
+import screen.MapScreen;
 import screen.MenuScreen;
 import screen.ShipScreen;
 
@@ -22,13 +25,30 @@ public class CosmosGame extends Game {
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
     private ShipScreen shipScreen;
+    private MapScreen mapScreen;
     private int countOre = 0;
+    private int countMoney=0;
+    public String k="Ship",to = "Game";
+    public boolean build = false;
     private int IdScene;
+    public int[]X = new int[6];
+    public boolean[]mined = new boolean[6];
+    Random random;
     @Override
     public void create() {
+        random = new Random();
+        int x = random.nextInt((1500 - 500) + 1) + 500;
+        for(int i=0;i<6;i++){
+            X[i] = x;
+            x += random.nextInt((1500 - 500) + 1) + 500;
+            if(x>=5200){
+                x=50000;
+            }
+        }
         menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
         shipScreen = new ShipScreen(this);
+        mapScreen = new MapScreen(this);
         batch = new SpriteBatch();
 
 
@@ -54,6 +74,10 @@ public class CosmosGame extends Game {
              setScreen(shipScreen);
 
          }
+         else if(screenName.equals("Map")){
+             IdScene = 3;
+             setScreen(mapScreen);
+         }
     }
 
     public int getIdScene() {
@@ -67,6 +91,7 @@ public class CosmosGame extends Game {
         menuScreen.dispose();
         gameScreen.dispose();
         shipScreen.dispose();
+        mapScreen.dispose();
     }
 
     public void setWORLD_WIDTH(int WORLD_WIDTH) {
@@ -79,6 +104,14 @@ public class CosmosGame extends Game {
 
     public void setCountOre(int countOre) {
         this.countOre = countOre;
+    }
+
+    public int getCountMoney() {
+        return countMoney;
+    }
+
+    public void setCountMoney(int countMoney) {
+        this.countMoney = countMoney;
     }
 
     public int getWORLD_WIDTH() {
