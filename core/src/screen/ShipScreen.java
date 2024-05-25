@@ -2,6 +2,7 @@ package screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ import ui.GameInterface;
 
 public class ShipScreen implements Screen {
     private final CosmosGame cosmosGame;
+    private boolean hasP = false;
     private Movecamera movecamera;
     private GameInterface gameInterface;
     private SpriteBatch batch;
@@ -34,6 +36,11 @@ public class ShipScreen implements Screen {
         gameInterface = new GameInterface(movecamera, cosmosGame);
         batch = cosmosGame.getSpriteBatch();
         cosmosGame.k = cosmosGame.to;
+        if(!hasP) {
+            Music music = Gdx.audio.newMusic(Gdx.files.internal("dict1.mp3"));
+            music.play();
+            hasP = true;
+        }
     }
     @Override
     public void render(float speed) {
@@ -44,7 +51,7 @@ public class ShipScreen implements Screen {
         float speedTime = Gdx.graphics.getDeltaTime();
         batch.begin();
         batch.draw(background, 0, 0);
-        player.rendering(batch, movecamera,90);
+        player.rendering(gameInterface.stage, movecamera,90,cosmosGame);
         batch.end();
         gameInterface.drawUI(cosmosGame, movecamera);
     }

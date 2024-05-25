@@ -30,10 +30,16 @@ public class Tree {
         t = new ImageButton(treeD);
         t.setTransform(true);
         t.setPosition(x,90);
+        if(cs.treed[id]){
+            t.setVisible(false);
+        }else {
+            t.setVisible(true);
+        }
         t.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 gm.feel(id);
+
 
             }
         });

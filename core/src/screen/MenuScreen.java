@@ -2,6 +2,8 @@ package screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,12 +21,15 @@ public class MenuScreen implements Screen {
     private MenuInterface menuInterface;
     private float nowTime;
 
+
     public MenuScreen(CosmosGame cosmosGame) {
         this.cosmosGame = cosmosGame;
     }
 
     @Override
     public void show() {
+
+
         batch = cosmosGame.getSpriteBatch();
 
         camera = new OrthographicCamera();
@@ -33,8 +38,8 @@ public class MenuScreen implements Screen {
         background = new Texture(Gdx.files.internal("menuBack.png"));
 
         menuInterface = new MenuInterface(camera,
-                () -> cosmosGame.changeScreen("Game")
-            );
+                () -> cosmosGame.changeScreen("Ship")
+        );
 
 
     }
@@ -54,11 +59,14 @@ public class MenuScreen implements Screen {
         menuInterface.drawUI();
 
     }
+
     @Override
-    public void dispose(){
+    public void dispose() {
         background.dispose();
         menuInterface.dispose();
+
     }
+
     @Override
     public void resize(int width, int height) {
     }

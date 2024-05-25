@@ -19,6 +19,7 @@ public class MenuInterface {
     private final OrthographicCamera camera;
     private final BtnListener btnListener;
 
+
     public MenuInterface(OrthographicCamera camera, BtnListener btnListener) {
         this.camera = camera;
         this.btnListener = btnListener;
